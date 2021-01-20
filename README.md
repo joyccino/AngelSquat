@@ -1,6 +1,8 @@
 # SmartCam
 
-You can find the original source code and READ ME from https://github.com/jmablog/squatcam
+These codes in this forked repository has been modified.
+
+You can find the original squatcam source code and READ ME from https://github.com/jmablog/squatcam
 
 Thanks you James for your amazing work.
 
