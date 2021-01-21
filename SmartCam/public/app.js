@@ -23,6 +23,23 @@ let maxTrunkLean = 180;
 
 let knee, hip, ankle, kneeFlexion, dorsiflexion, hipFlexion, shoulder, anKnee, sHip, trunkLean;
 
+let squatPos = 0;
+let countNo = 0;
+let squatAng = 0;
+let shCount = 0;
+let backPos = 0;
+let kneePos = 0;
+let upPos = 0;
+
+//for angel ring
+let leftx;
+let lefty;
+let rightx; 
+let righty;
+let xpoint;
+let ypoint; 
+let diameter;
+
 function setup() {
 	let canvas = createCanvas(640, 480);
 	canvas.parent('app');
@@ -188,8 +205,8 @@ function modelReady() {
 	select('#status').style('color', '#4A5568');
 	select('#status').html('Ready!✔ <i class="fas fa-check-circle" style="color:#4A5568;"></i>');
 }
-
 function draw() {
+	
 	clear();
 	image(video, 0, 0, width, height);
 
@@ -208,10 +225,6 @@ function draw() {
 	displaySide = side.toUpperCase();
 	text(displaySide, 45, 25);
 
-	// We can call both functions to draw all keypoints and the skeletons
-	drawKeypoints();
-	drawSkeleton();
-
 	if (poses.length > 0) {
 		// draws the angles as they happen over the video feed
 		fill('#FFFFFF');
@@ -220,26 +233,136 @@ function draw() {
 		text(Math.round(dorsiflexion) + '°', ankle.x + 20, ankle.y + 10);
 		text(Math.round(trunkLean) + '°', shoulder.x + 20, shoulder.y + 10);
 
+		if (trunkLean > 180) {
+			trunkLean = Math.round(trunkLean-180)
+		}else {
+			trunkLean = Math.round(trunkLean)
+		}
+
+		if (hipFlexion > 180) {
+			hipFlexion = Math.round(hipFlexion-180)
+		}else {
+			hipFlexion = Math.round(hipFlexion)
+		}
+
+		if (kneeFlexion > 180) {
+			kneeFlexion = Math.round(kneeFlexion-180)
+		}else {
+			kneeFlexion = Math.round(kneeFlexion)
+		}
+
+		//Here starts to detect and count a squat.
+		//see if hipAngle is in correct range
+		// console.log(hipFlexion)
+		if (hipFlexion > 150) {
+			dhvalue = Math.round(hipFlexion - 150)
+			select('#backAng').html(dhvalue+'° ↓');
+			backPos = 0;
+			document.getElementById("backAng").style.color = 'red';
+		}else if (hipFlexion < 70) {
+			dhvalue = Math.round(70 - hipFlexion)
+			select('#backAng').html(dhvalue+'° ↑');
+			backPos = 0;
+			document.getElementById("backAng").style.color = 'red';
+		}else {
+			dhvalue = Math.round(hipFlexion)
+			select('#backAng').html(dhvalue+'°');
+			backPos = 1;
+			document.getElementById("backAng").style.color = 'green';
+		}
+		//see if kneeAngle is in correct range
+		if(kneeFlexion > 120) {
+			dkvalue = Math.round(kneeFlexion - 120);
+			select('#kneeAng').html(dkvalue+'° ↓');
+			kneePos = 0;
+			document.getElementById("kneeAng").style.color = 'red';
+		}else if (kneeFlexion < 85) {
+			dkvalue = Math.round(85 - kneeFlexion);
+			select('#kneeAng').html(dkvalue+'° ↑');
+			kneePos = 0;
+			document.getElementById("kneeAng").style.color = 'red';
+		}else {
+			dkvalue = Math.round(kneeFlexion)
+			select('#kneeAng').html(dkvalue+'°');
+			kneePos = 1;
+			document.getElementById("kneeAng").style.color = 'green';
+		}
+		// see if upperbody angle is in appropriate range.
+		if (trunkLean > 95) {
+			duvalue = Math.round(trunkLean - 95);
+			select('#upper').html(duvalue+'° ↓');
+			upPos = 0;
+			document.getElementById("upper").style.color = 'red';
+		}else if (trunkLean < 65){
+			duvalue = Math.round(65 - trunkLean);
+			select('#upper').html(duvalue+'° ↑');
+			upPos = 0;
+			document.getElementById("upper").style.color = 'red';
+		}else{
+			duvalue = Math.round(trunkLean);
+			select('#upper').html(duvalue+'°')
+			upPos = 1;
+			document.getElementById("upper").style.color = 'green';
+		}
+		if (kneePos && backPos && upPos ==1) {
+
+			select('#squat_detect').html('True');
+			document.getElementById("squat_detect").style.color = 'green';
+			squatPos = 1;
+		}else {
+			select('#squat_detect').html('False');
+			document.getElementById("squat_detect").style.color = 'red';
+			squatPos = 0;
+		}
+
 		// updates the max numbers reached if they are exceeded at any time
 		// then replaces the connected HTML span with the new max number
-		if ((knee.confidence > 0.5) & (kneeFlexion > 20) & (kneeFlexion < maxKneeFlexion)) {
+		if ((knee.confidence > 0.5) & (kneeFlexion > 20) ) {
 			maxKneeFlexion = Math.round(kneeFlexion);
 			select('#kneeFlexion').html(maxKneeFlexion);
 		}
-		if ((hip.confidence > 0.5) & (hipFlexion > 20) & (hipFlexion < maxHipFlexion)) {
+		if ((hip.confidence > 0.5) & (hipFlexion > 20) ) {
 			maxHipFlexion = Math.round(hipFlexion);
 			select('#hipFlexion').html(maxHipFlexion);
 		}
-		if ((ankle.confidence > 0.5) & (dorsiflexion > 20) & (dorsiflexion < maxDorsiflexion)) {
+		if ((ankle.confidence > 0.5) & (dorsiflexion > 20) ) {
 			maxDorsiflexion = Math.round(dorsiflexion);
 			select('#shinAngle').html(maxDorsiflexion);
 		}
-		if ((shoulder.confidence > 0.5) & (trunkLean > 20) & (trunkLean < maxTrunkLean)) {
+		if ((shoulder.confidence > 0.5) & (trunkLean > 20) ) {
 			maxTrunkLean = Math.round(trunkLean);
 			select('#trunkAngle').html(maxTrunkLean);
+
+		drawKeypoints();
+		drawSkeleton(squatPos, backPos, upPos, kneePos);
+
+		leftx = poses[0].pose.keypoints[3].position.x;
+    	lefty = poses[0].pose.keypoints[3].position.y;
+    	rightx = poses[0].pose.keypoints[4].position.x;
+    	righty = poses[0].pose.keypoints[4].position.y;
+
+      	drawEllipse(leftx, lefty, rightx, righty, squatPos);
 		}
 	}
 }
+
+function drawEllipse(leftx, lefty, rightx, righty,squatPos) {
+	noFill();
+	console.log('squatPos is'+squatPos)
+	if (squatPos == 0) {
+		strokeWeight(2)
+		stroke('red');
+	}else if (squatPos == 1) {
+		strokeWeight(10);
+		stroke('cyan')
+	}
+	
+   
+	xpoint = (leftx + rightx) / 2
+	ypoint = (lefty + righty) / 2
+	diameter = Math.sqrt(Math.pow(rightx-leftx, 2) + Math.pow(righty-lefty, 2));
+	ellipse(xpoint, ypoint-(diameter*1.2), diameter*0.75, diameter*0.2);
+ }
 
 // A function to draw ellipses over the detected keypoints
 function drawKeypoints() {
@@ -263,19 +386,26 @@ function drawKeypoints() {
 }
 
 // A function to draw the skeletons
-function drawSkeleton() {
+function drawSkeleton(squatPos, backPos, upPos, kneePos) {
 	// Loop through all the skeletons detected
 	for (let i = 0; i < poses.length; i++) {
 		let skeleton = poses[i].skeleton;
+		// stroke('rgb(0,255,0)'); //to green
 		// For every skeleton, loop through all body connections
 		for (let j = 0; j < skeleton.length; j++) {
 			let partA = skeleton[j][0];
 			let partB = skeleton[j][1];
 			push();
-			stroke('rgba(255,255,255, 0.5)');
-			strokeWeight(2);
+			if (squatPos > 0) {
+				stroke('green');
+				strokeWeight(6);
+			}else {
+				stroke('red')
+				strokeWeight(1);
+			}
 			line(partA.position.x, partA.position.y, partB.position.x, partB.position.y);
 			pop();
 		}
 	}
+	
 }
