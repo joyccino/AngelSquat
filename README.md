@@ -19,12 +19,14 @@ Thank you James for your amazing work.
 <br>
 <br>
 (Kor) <br>
+
 1) 몸의 키 포인트 감지, <br>
 2) Three Angles (Upper Body Lean, Hip Angle, Knee Angle) 계산 후, <br>
-3) Three Angles 가 모두 적정 범위 내에 있는 경우, <br>
+3) Three Angles 가 모두 적정 범위 내의 값이라는 조건을 만족하는 경우, <br>
 4) Skeleton Lines 와 머리 위 천사 고리 짙은 녹색으로 표시. <br>
  <br>
 (Eng) <br>
+
 1) Detect Body Key Points from Inputs. <br>
 2) Calculate Three Angles (Upper Body Lean, Hip Angle, Knee Angle). <br>
 3) Compare these Three Angles with Demo Angles. <br>
