@@ -1,6 +1,6 @@
 # 👼 AngelSquat
 
-Codes in this forked repository has been modified.
+Codes in this forked repository have been modified.
 
 You can find the original squatcam repo at https://github.com/jmablog/squatcam
 
