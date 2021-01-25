@@ -27,7 +27,7 @@ Thank you James for your amazing work.
  <br>
 (Eng) <br>
 
-1) Detect Body Key Points from Inputs. <br>
+1) Detect Body Key Points from inputs. <br>
 2) Calculate Three Angles (Upper Body Lean, Hip Angle, Knee Angle). <br>
 3) Compare these Three Angles with Demo Angles. <br>
 4) Alter the colour and the line thickness of Skeleton Lines and Angel Ring above the person's head.  <br>
