@@ -16,7 +16,7 @@ Thank you James for your amazing work.
 
 # 👀 동작 맛보기 (Demo)
 ![squatWendy](https://user-images.githubusercontent.com/67300266/105364190-fb687c80-5c50-11eb-8afd-fac5152e19ce.gif) 
-<br>
+
 <br>
 (Kor) <br>
 
