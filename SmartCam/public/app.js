@@ -23,8 +23,17 @@ let maxTrunkLean = 180;
 
 let knee, hip, ankle, kneeFlexion, dorsiflexion, hipFlexion, shoulder, anKnee, sHip, trunkLean;
 
+let standPos = 0;
 let squatPos = 0;
-let countNo = 0;
+
+//for counting
+let psquatPos = 0;
+let pvalue = 0;
+
+let squat = [];
+let count = 0;
+
+//for angles
 let squatAng = 0;
 let shCount = 0;
 let backPos = 0;
@@ -53,7 +62,6 @@ function setup() {
 			}
 		}
 	};
-
 	video = createCapture(constraints);
 	video.size(width, height);
 
@@ -251,67 +259,115 @@ function draw() {
 			kneeFlexion = Math.round(kneeFlexion)
 		}
 
-		//Here starts to detect and count a squat.
-		//see if hipAngle is in correct range
-		// console.log(hipFlexion)
-		if (hipFlexion > 150) {
-			dhvalue = Math.round(hipFlexion - 150)
-			select('#backAng').html(dhvalue+'° ↓');
-			backPos = 0;
-			document.getElementById("backAng").style.color = 'red';
-		}else if (hipFlexion < 70) {
-			dhvalue = Math.round(70 - hipFlexion)
-			select('#backAng').html(dhvalue+'° ↑');
-			backPos = 0;
-			document.getElementById("backAng").style.color = 'red';
-		}else {
-			dhvalue = Math.round(hipFlexion)
-			select('#backAng').html(dhvalue+'°');
-			backPos = 1;
-			document.getElementById("backAng").style.color = 'green';
-		}
-		//see if kneeAngle is in correct range
-		if(kneeFlexion > 120) {
-			dkvalue = Math.round(kneeFlexion - 120);
-			select('#kneeAng').html(dkvalue+'° ↓');
-			kneePos = 0;
-			document.getElementById("kneeAng").style.color = 'red';
-		}else if (kneeFlexion < 85) {
-			dkvalue = Math.round(85 - kneeFlexion);
-			select('#kneeAng').html(dkvalue+'° ↑');
-			kneePos = 0;
-			document.getElementById("kneeAng").style.color = 'red';
-		}else {
-			dkvalue = Math.round(kneeFlexion)
-			select('#kneeAng').html(dkvalue+'°');
-			kneePos = 1;
-			document.getElementById("kneeAng").style.color = 'green';
-		}
-		// see if upperbody angle is in appropriate range.
-		if (trunkLean > 95) {
-			duvalue = Math.round(trunkLean - 95);
-			select('#upper').html(duvalue+'° ↓');
-			upPos = 0;
-			document.getElementById("upper").style.color = 'red';
-		}else if (trunkLean < 65){
-			duvalue = Math.round(65 - trunkLean);
-			select('#upper').html(duvalue+'° ↑');
-			upPos = 0;
-			document.getElementById("upper").style.color = 'red';
-		}else{
-			duvalue = Math.round(trunkLean);
-			select('#upper').html(duvalue+'°')
-			upPos = 1;
-			document.getElementById("upper").style.color = 'green';
-		}
-		if (kneePos && backPos && upPos ==1) {
+		// //Here starts to detect and count a squat.
+		
+		if (standPos && psquatPos == 1) {
+			
+			//for music alert
+			let audio = new Audio('ding.mp3');
+			audio.play();
 
+			psquatPos = 0;
+			squat.push("squat");
+			count = squat.length;
+			select('#squat_count').html(count);
+		}
+		//firstly, is standing?
+		if (kneeFlexion&&hipFlexion>160) {
+				kneePos = 0;
+				select('#squat_detect').html('standing');
+				document.getElementById("squat_detect").style.color = 'orange';
+
+				select('#backAng').html('-');
+				select('#kneeAng').html('-');
+				select('#upper').html('-');
+				select('#squat_detect').html('Standing');
+
+				document.getElementById("backAng").style.color = 'orange';
+				document.getElementById("kneeAng").style.color = 'orange';
+				document.getElementById("upper").style.color = 'orange';
+				document.getElementById("squat_detect").style.color = 'orange';
+				standPos = 1;
+			}else {
+				standPos = 0;
+			}
+		//secondly... is it a perfect squat?
+		//what happens kneef lower than 150?
+		if (kneeFlexion < 160){
+			if (kneeFlexion > 130) { //knee max 130
+				dkvalue = Math.round(kneeFlexion - 130);
+				select('#kneeAng').html(dkvalue+'° ↓');
+				select('#squat_detect').html('False');
+				kneePos = 0;
+				document.getElementById("kneeAng").style.color = 'red';
+				document.getElementById("squat_detect").style.color = 'red';
+			}else if(kneeFlexion < 120){ //knee min 120
+				dkvalue = Math.round(120 - kneeFlexion);
+				select('#kneeAng').html(dkvalue+'° ↑');
+				select('#squat_detect').html('False');
+				kneePos = 0;
+				document.getElementById("kneeAng").style.color = 'red';
+				document.getElementById("squat_detect").style.color = 'red';
+			}else { 
+				dkvalue = Math.round(kneeFlexion)
+				select('#kneeAng').html('Okay!');
+				kneePos = 1; //correction
+				document.getElementById("kneeAng").style.color = 'green';
+				//now check hip flexion
+				if (hipFlexion < 150){
+					if (hipFlexion > 140){ //hip max 140
+						dhvalue = Math.round(hipFlexion - 140)
+						select('#backAng').html(dhvalue+'° ↓');
+						select('#squat_detect').html('False');
+						backPos = 0;
+						document.getElementById("backAng").style.color = 'red';
+						document.getElementById("squat_detect").style.color = 'red';
+					}else if (hipFlexion < 126) { //hip min 125
+							dhvalue = Math.round(125 - hipFlexion)
+							select('#backAng').html(dhvalue+'° ↑');
+							select('#squat_detect').html('False');
+							backPos = 0;
+							document.getElementById("backAng").style.color = 'red';
+							document.getElementById("squat_detect").style.color = 'red';
+					}else {
+							dhvalue = Math.round(hipFlexion)
+							select('#backAng').html('Okay!');
+							backPos = 1; //correction
+							document.getElementById("backAng").style.color = 'green';
+						//now check upperBody lean
+						if (trunkLean > 90){ //upper max 90
+							duvalue = Math.round(trunkLean - 90);
+							select('#upper').html(duvalue+'° ↓');
+							select('#squat_detect').html('False');
+							upPos = 0;
+							document.getElementById("upper").style.color = 'red';
+							document.getElementById("squat_detect").style.color = 'red';
+						}else if (trunkLean < 79) { //upper min 70
+							duvalue = Math.round(79 - trunkLean);
+							select('#upper').html(duvalue+'° ↑');
+							select('#squat_detect').html('False');
+							upPos = 0;
+							document.getElementById("upper").style.color = 'red';
+							document.getElementById("squat_detect").style.color = 'red';
+						}else {
+							duvalue = Math.round(trunkLean);
+							select('#upper').html('Okay!')
+							upPos = 1;
+							document.getElementById("upper").style.color = 'green';
+						}
+					}
+				}
+			}
+		}
+		
+		if (kneePos && backPos && upPos == 1) {
 			select('#squat_detect').html('True');
 			document.getElementById("squat_detect").style.color = 'green';
 			squatPos = 1;
+			//practice for counting
+			psquatPos = squatPos;
+
 		}else {
-			select('#squat_detect').html('False');
-			document.getElementById("squat_detect").style.color = 'red';
 			squatPos = 0;
 		}
 
@@ -325,10 +381,10 @@ function draw() {
 			maxHipFlexion = Math.round(hipFlexion);
 			select('#hipFlexion').html(maxHipFlexion);
 		}
-		if ((ankle.confidence > 0.5) & (dorsiflexion > 20) ) {
-			maxDorsiflexion = Math.round(dorsiflexion);
-			select('#shinAngle').html(maxDorsiflexion);
-		}
+		// if ((ankle.confidence > 0.5) & (dorsiflexion > 20) ) {
+		// 	maxDorsiflexion = Math.round(dorsiflexion);
+		// 	select('#shinAngle').html(maxDorsiflexion);
+		// }
 		if ((shoulder.confidence > 0.5) & (trunkLean > 20) ) {
 			maxTrunkLean = Math.round(trunkLean);
 			select('#trunkAngle').html(maxTrunkLean);
@@ -348,16 +404,13 @@ function draw() {
 
 function drawEllipse(leftx, lefty, rightx, righty,squatPos) {
 	noFill();
-	console.log('squatPos is'+squatPos)
 	if (squatPos == 0) {
 		strokeWeight(2)
 		stroke('red');
 	}else if (squatPos == 1) {
-		strokeWeight(10);
+		strokeWeight(8);
 		stroke('cyan')
 	}
-	
-   
 	xpoint = (leftx + rightx) / 2
 	ypoint = (lefty + righty) / 2
 	diameter = Math.sqrt(Math.pow(rightx-leftx, 2) + Math.pow(righty-lefty, 2));
