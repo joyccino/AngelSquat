@@ -24,6 +24,7 @@ Thank you James for your amazing work.
 2) Three Angles (Upper Body Lean, Hip Angle, Knee Angle) 계산 후, <br>
 3) Three Angles 가 모두 적정 범위 내의 값이라는 조건을 만족하는 경우, <br>
 4) Skeleton Lines 와 머리 위 천사 고리 짙은 녹색으로 표시. <br>
+5) Squat 는 개당 카운트 되며 1 squat 시 소리로 알려줌. <br>
  <br>
 (Eng) <br>
 
@@ -31,3 +32,4 @@ Thank you James for your amazing work.
 2) Calculate Three Angles (Upper Body Lean, Hip Angle, Knee Angle). <br>
 3) Compare these Three Angles with Demo Angles. <br>
 4) Alter the colour and the line thickness of Skeleton Lines and Angel Ring above the person's head.  <br>
+5) Squats are now being counted while the app gives a sound alert when 1 squat is counted.
