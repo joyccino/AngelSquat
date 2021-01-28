@@ -9,7 +9,7 @@ ml5 Example
 PoseNet example using p5.js
 Available at https://ml5js.org
 === */
-
+let type;
 let video;
 let poseNet;
 let poses = [];
@@ -22,6 +22,8 @@ let maxDorsiflexion = 180;
 let maxTrunkLean = 180;
 
 let knee, hip, ankle, kneeFlexion, dorsiflexion, hipFlexion, shoulder, anKnee, sHip, trunkLean;
+//for side check
+let ankleOps, asideCheck, ssideCheck, ankles, shoulderOpt, shoulders;
 
 let standPos = 0;
 let squatPos = 0;
@@ -29,6 +31,7 @@ let squatPos = 0;
 //for counting
 let psquatPos = 0;
 let pvalue = 0;
+let kcal = 0;
 
 let squat = [];
 let count = 0;
@@ -64,9 +67,9 @@ function setup() {
 	};
 	video = createCapture(constraints);
 	video.size(width, height);
-
+	type = 'single';
 	// Create a new poseNet method with a single detection
-	poseNet = ml5.poseNet(video, modelReady);
+	poseNet = ml5.poseNet(video, modelReady, type);
 
 	// This sets up an event that fills the global variable "poses"
 	// with an array every time new poses are detected
@@ -82,6 +85,25 @@ function setup() {
 					hip = poses[0].pose.leftHip;
 					ankle = poses[0].pose.leftAnkle;
 					shoulder = poses[0].pose.leftShoulder;
+					//compare ankles for side check
+					ankleOps = poses[0].pose.rightAnkle;
+					shoulderOpt = poses[0].pose.rightShoulder;
+					ankles = {l: ankle.y, r: ankleOps.y}
+					shoulders = {l: shoulder.y, r: shoulderOpt.y}
+					asideCheck = (ankles.l - ankles.r);
+					ssideCheck = (shoulders.l - shoulders.r);
+					// console.log('left '+ankles.l);
+					// console.log('right '+ankles.r);
+					if (asideCheck&&ssideCheck>5) {
+						console.log('==================toRRRRRRRR');
+						side = '우측';
+						console.log('바뀐시점 left '+ankles.l);
+						console.log('바뀐시점 right '+ankles.r);
+						console.log('왼쪽 값이 더 큰가?')
+						console.log('side changed!');
+					}
+					//until here
+
 					anKnee = { x: knee.x, y: ankle.y };
 					sHip = { x: shoulder.x, y: hip.y };
 					kneeFlexion =
@@ -110,6 +132,24 @@ function setup() {
 					shoulder = poses[0].pose.rightShoulder;
 					anKnee = { x: knee.x, y: ankle.y };
 					sHip = { x: shoulder.x, y: hip.y };
+					//compare ankles for side check
+					shoulderOps = poses[0].pose.leftShoulder;
+					ankleOps = poses[0].pose.leftAnkle;
+					ankles = {r: ankle.y, l: ankleOps.y}
+					shoulders = {r: shoulder.y, l: shoulderOpt.y}
+					asideCheck = (ankles.r - ankles.l);
+					ssideCheck = (shoulders.r - shoulders.l);
+					
+					// console.log('sideCheck:'+sideCheck+'so '+side);
+					if (ssideCheck&&asideCheck>5) {
+						console.log('-_-_-_-_-_-_-_-_-_-_-_-_LLLLLLL')
+						console.log('바뀐시점 left '+ankles.l);
+						console.log('바뀐시점 right '+ankles.r);
+						console.log('오른쪽값이 더 큰가?')
+						side = '좌측';
+						console.log('side changed!');
+					}
+					//until here
 					kneeFlexion =
 						360 -
 						(Math.atan2(ankle.y - knee.y, ankle.x - knee.x) - Math.atan2(hip.y - knee.y, hip.x - knee.x)) *
@@ -226,7 +266,7 @@ function draw() {
 
 	fill('#4A5568');
 	noStroke();
-	textSize(12);
+	textSize(30);
 	textAlign(CENTER, CENTER);
 	textStyle(BOLD);
 	textFont('sans-serif');
@@ -271,6 +311,8 @@ function draw() {
 			squat.push("squat");
 			count = squat.length;
 			select('#squat_count').html(count);
+			kcal = 0.43*count;
+			select('#kcal').html(kcal);
 		}
 		//firstly, is standing?
 		if (kneeFlexion&&hipFlexion>160) {
