@@ -32,7 +32,6 @@ let squatPos = 0;
 let psquatPos = 0;
 let pvalue = 0;
 let kcal = 0;
-
 let squat = [];
 let count = 0;
 
