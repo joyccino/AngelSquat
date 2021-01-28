@@ -23,7 +23,7 @@ let maxTrunkLean = 180;
 
 let knee, hip, ankle, kneeFlexion, dorsiflexion, hipFlexion, shoulder, anKnee, sHip, trunkLean;
 //for side check
-let ankleOps, asideCheck, ssideCheck, ankles, shoulderOpt, shoulders;
+let ankleOps, ankles, shoulderOpt, shoulders, hipOpt, hips, asideCheck, ssideCheck, hsideCheck;
 
 let standPos = 0;
 let squatPos = 0;
@@ -86,21 +86,26 @@ function setup() {
 					ankle = poses[0].pose.leftAnkle;
 					shoulder = poses[0].pose.leftShoulder;
 					//compare ankles for side check
-					ankleOps = poses[0].pose.rightAnkle;
+					hipOpt = poses[0].pose.rightHip;
+					ankleOpt = poses[0].pose.rightAnkle;
 					shoulderOpt = poses[0].pose.rightShoulder;
-					ankles = {l: ankle.y, r: ankleOps.y}
+					hips = {l: hip.y, r: hipOpt.y}
+					ankles = {l: ankle.y, r: ankleOpt.y}
 					shoulders = {l: shoulder.y, r: shoulderOpt.y}
 					asideCheck = (ankles.l - ankles.r);
 					ssideCheck = (shoulders.l - shoulders.r);
+					hsideCheck = (hips.l - hips.r);
 					// console.log('left '+ankles.l);
 					// console.log('right '+ankles.r);
 					if (asideCheck&&ssideCheck>5) {
-						console.log('==================toRRRRRRRR');
-						side = '우측';
-						console.log('바뀐시점 left '+ankles.l);
-						console.log('바뀐시점 right '+ankles.r);
-						console.log('왼쪽 값이 더 큰가?')
-						console.log('side changed!');
+						// if (hsideCheck >3) {
+							console.log('==================toRRRRRRRR');
+							side = '우측';
+							console.log('바뀐시점 left '+ankles.l);
+							console.log('바뀐시점 right '+ankles.r);
+							console.log('왼쪽 값이 더 큰가?')
+							console.log('side changed!');
+						// }
 					}
 					//until here
 
@@ -133,21 +138,25 @@ function setup() {
 					anKnee = { x: knee.x, y: ankle.y };
 					sHip = { x: shoulder.x, y: hip.y };
 					//compare ankles for side check
-					shoulderOps = poses[0].pose.leftShoulder;
-					ankleOps = poses[0].pose.leftAnkle;
-					ankles = {r: ankle.y, l: ankleOps.y}
-					shoulders = {r: shoulder.y, l: shoulderOpt.y}
+					hipOpt = poses[0].pose.leftHip;
+					shoulderOpt = poses[0].pose.leftShoulder;
+					ankleOpt = poses[0].pose.leftAnkle;
+					hips = {l: hipOpt.y, r: hip.y}
+					ankles = {l: ankleOpt.y, r: ankle.y}
+					shoulders = {l: shoulderOpt.y, r: shoulder.y}
 					asideCheck = (ankles.r - ankles.l);
 					ssideCheck = (shoulders.r - shoulders.l);
-					
+					hsideCheck = (hips.r - hips.l);
 					// console.log('sideCheck:'+sideCheck+'so '+side);
-					if (ssideCheck&&asideCheck>5) {
-						console.log('-_-_-_-_-_-_-_-_-_-_-_-_LLLLLLL')
-						console.log('바뀐시점 left '+ankles.l);
-						console.log('바뀐시점 right '+ankles.r);
-						console.log('오른쪽값이 더 큰가?')
-						side = '좌측';
-						console.log('side changed!');
+					if (asideCheck&&ssideCheck>5) {
+						// if (hsideCheck > 3) {
+							console.log('-_-_-_-_-_-_-_-_-_-_-_-_LLLLLLL')
+							console.log('바뀐시점 left '+ankles.l);
+							console.log('바뀐시점 right '+ankles.r);
+							console.log('오른쪽값이 더 큰가?')
+							side = '좌측';
+							console.log('side changed!');
+						// }
 					}
 					//until here
 					kneeFlexion =
@@ -413,11 +422,11 @@ function draw() {
 
 		// updates the max numbers reached if they are exceeded at any time
 		// then replaces the connected HTML span with the new max number
-		if ((knee.confidence > 0.5) & (kneeFlexion > 20) ) {
+		if ((knee.confidence > 0.7) & (kneeFlexion > 20) ) {
 			maxKneeFlexion = Math.round(kneeFlexion);
 			select('#kneeFlexion').html(maxKneeFlexion);
 		}
-		if ((hip.confidence > 0.5) & (hipFlexion > 20) ) {
+		if ((hip.confidence > 0.7) & (hipFlexion > 20) ) {
 			maxHipFlexion = Math.round(hipFlexion);
 			select('#hipFlexion').html(maxHipFlexion);
 		}
@@ -425,7 +434,7 @@ function draw() {
 		// 	maxDorsiflexion = Math.round(dorsiflexion);
 		// 	select('#shinAngle').html(maxDorsiflexion);
 		// }
-		if ((shoulder.confidence > 0.5) & (trunkLean > 20) ) {
+		if ((shoulder.confidence > 0.7) & (trunkLean > 20) ) {
 			maxTrunkLean = Math.round(trunkLean);
 			select('#trunkAngle').html(maxTrunkLean);
 
@@ -477,6 +486,7 @@ function drawKeypoints() {
 		}
 	}
 }
+
 // A function to draw the skeletons
 function drawSkeleton(squatPos, backPos, upPos, kneePos) {
 	// Loop through all the skeletons detected
