@@ -32,6 +32,7 @@ let squatPos = 0;
 let psquatPos = 0;
 let pvalue = 0;
 let kcal = 0;
+
 let squat = [];
 let count = 0;
 
@@ -316,9 +317,7 @@ function draw() {
 		//firstly, is standing?
 		if (kneeFlexion&&hipFlexion>160) {
 				kneePos = 0;
-				select('#squat_detect').html('standing');
 				document.getElementById("squat_detect").style.color = 'orange';
-
 				select('#backAng').html('-');
 				select('#kneeAng').html('-');
 				select('#upper').html('-');
@@ -338,14 +337,14 @@ function draw() {
 			if (kneeFlexion > 130) { //knee max 130
 				dkvalue = Math.round(kneeFlexion - 130);
 				select('#kneeAng').html(dkvalue+'° ↓');
-				select('#squat_detect').html('False');
+				select('#squat_detect').html('Wrong');
 				kneePos = 0;
 				document.getElementById("kneeAng").style.color = 'red';
 				document.getElementById("squat_detect").style.color = 'red';
 			}else if(kneeFlexion < 120){ //knee min 120
 				dkvalue = Math.round(120 - kneeFlexion);
 				select('#kneeAng').html(dkvalue+'° ↑');
-				select('#squat_detect').html('False');
+				select('#squat_detect').html('Wrong');
 				kneePos = 0;
 				document.getElementById("kneeAng").style.color = 'red';
 				document.getElementById("squat_detect").style.color = 'red';
@@ -359,14 +358,14 @@ function draw() {
 					if (hipFlexion > 140){ //hip max 140
 						dhvalue = Math.round(hipFlexion - 140)
 						select('#backAng').html(dhvalue+'° ↓');
-						select('#squat_detect').html('False');
+						select('#squat_detect').html('Wrong');
 						backPos = 0;
 						document.getElementById("backAng").style.color = 'red';
 						document.getElementById("squat_detect").style.color = 'red';
 					}else if (hipFlexion < 126) { //hip min 125
 							dhvalue = Math.round(125 - hipFlexion)
 							select('#backAng').html(dhvalue+'° ↑');
-							select('#squat_detect').html('False');
+							select('#squat_detect').html('Wrong');
 							backPos = 0;
 							document.getElementById("backAng").style.color = 'red';
 							document.getElementById("squat_detect").style.color = 'red';
@@ -379,14 +378,14 @@ function draw() {
 						if (trunkLean > 90){ //upper max 90
 							duvalue = Math.round(trunkLean - 90);
 							select('#upper').html(duvalue+'° ↓');
-							select('#squat_detect').html('False');
+							select('#squat_detect').html('Wrong');
 							upPos = 0;
 							document.getElementById("upper").style.color = 'red';
 							document.getElementById("squat_detect").style.color = 'red';
 						}else if (trunkLean < 79) { //upper min 70
 							duvalue = Math.round(79 - trunkLean);
 							select('#upper').html(duvalue+'° ↑');
-							select('#squat_detect').html('False');
+							select('#squat_detect').html('Wrong');
 							upPos = 0;
 							document.getElementById("upper").style.color = 'red';
 							document.getElementById("squat_detect").style.color = 'red';
@@ -402,7 +401,7 @@ function draw() {
 		}
 		
 		if (kneePos && backPos && upPos == 1) {
-			select('#squat_detect').html('True');
+			select('#squat_detect').html('Squat');
 			document.getElementById("squat_detect").style.color = 'green';
 			squatPos = 1;
 			//practice for counting
@@ -478,7 +477,6 @@ function drawKeypoints() {
 		}
 	}
 }
-
 // A function to draw the skeletons
 function drawSkeleton(squatPos, backPos, upPos, kneePos) {
 	// Loop through all the skeletons detected
