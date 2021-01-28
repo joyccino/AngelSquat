@@ -18,7 +18,7 @@ Thank you James for your amazing work.
 1. Automatic side transition based on comparison of both ankle location values has been added. <br>
 
 ![sideTransition](https://user-images.githubusercontent.com/67300266/106098729-e02fcc80-617c-11eb-822b-031b5107063a.gif) <br> <br>
-2. SquatCounter with a burned calories calculations have been updated. It gives a 'ding' sound for each squat. <br> <br>
+2. SquatCounter function has been updated. It gives a 'ding' sound  with a burned calories calculation for each squat. <br> <br>
 ![squatCounter](https://user-images.githubusercontent.com/67300266/106098744-e4f48080-617c-11eb-8b3a-b33cffdcbd47.gif)
 
 <br>
