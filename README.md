@@ -15,7 +15,11 @@ Thank you James for your amazing work.
 * 주요 Api (Core Api): PoseNet (https://ml5js.org/reference/api-PoseNet/)
 
 # 👀 동작 맛보기 (Demo)
-![squatWendy](https://user-images.githubusercontent.com/67300266/105364190-fb687c80-5c50-11eb-8afd-fac5152e19ce.gif) 
+Automatic side transition based on comparison of ankles' location values <br>
+18
+![sideTransition](https://user-images.githubusercontent.com/67300266/106098729-e02fcc80-617c-11eb-822b-031b5107063a.gif) <br>
+And squatCounter has been added. It gives a 'ding' sound for each squat. <br>
+![squatCounter](https://user-images.githubusercontent.com/67300266/106098744-e4f48080-617c-11eb-8b3a-b33cffdcbd47.gif)
 
 <br>
 (Kor) <br>
