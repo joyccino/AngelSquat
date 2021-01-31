@@ -10,7 +10,6 @@ Thank you James for your amazing work.
 
 # 🌎 개발 환경 (Environment)
 * OS: macOS Mojave (Version 10.14.6)
-* 작업 툴 (Editor Tool): VSCode
 * 주요 사용 라이브러리 (Core Library): p5.js(https://p5js.org/), ml5.js(https://ml5js.org/)
 * 주요 Api (Core Api): PoseNet (https://ml5js.org/reference/api-PoseNet/)
 
