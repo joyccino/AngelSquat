@@ -322,6 +322,8 @@ function draw() {
 			select('#squat_count').html(count);
 			kcal = 0.43*count;
 			select('#kcal').html(kcal);
+			document.getElementById("squat_count").style.color = 'red';
+			document.getElementById("kcal").style.color = 'red';
 		}
 		//firstly, is standing?
 		if (kneeFlexion&&hipFlexion>160) {
@@ -348,15 +350,15 @@ function draw() {
 				select('#kneeAng').html(dkvalue+'° ↓');
 				select('#squat_detect').html('Wrong');
 				kneePos = 0;
-				document.getElementById("kneeAng").style.color = 'red';
-				document.getElementById("squat_detect").style.color = 'red';
+				document.getElementById("kneeAng").style.color = 'gray';
+				document.getElementById("squat_detect").style.color = 'gray';
 			}else if(kneeFlexion < 120){ //knee min 120
 				dkvalue = Math.round(120 - kneeFlexion);
 				select('#kneeAng').html(dkvalue+'° ↑');
 				select('#squat_detect').html('Wrong');
 				kneePos = 0;
-				document.getElementById("kneeAng").style.color = 'red';
-				document.getElementById("squat_detect").style.color = 'red';
+				document.getElementById("kneeAng").style.color = 'gray';
+				document.getElementById("squat_detect").style.color = 'gray';
 			}else { 
 				dkvalue = Math.round(kneeFlexion)
 				select('#kneeAng').html('Okay!');
@@ -369,15 +371,15 @@ function draw() {
 						select('#backAng').html(dhvalue+'° ↓');
 						select('#squat_detect').html('Wrong');
 						backPos = 0;
-						document.getElementById("backAng").style.color = 'red';
-						document.getElementById("squat_detect").style.color = 'red';
+						document.getElementById("backAng").style.color = 'gray';
+						document.getElementById("squat_detect").style.color = 'gray';
 					}else if (hipFlexion < 126) { //hip min 125
 							dhvalue = Math.round(125 - hipFlexion)
 							select('#backAng').html(dhvalue+'° ↑');
 							select('#squat_detect').html('Wrong');
 							backPos = 0;
-							document.getElementById("backAng").style.color = 'red';
-							document.getElementById("squat_detect").style.color = 'red';
+							document.getElementById("backAng").style.color = 'gray';
+							document.getElementById("squat_detect").style.color = 'gray';
 					}else {
 							dhvalue = Math.round(hipFlexion)
 							select('#backAng').html('Okay!');
@@ -389,15 +391,15 @@ function draw() {
 							select('#upper').html(duvalue+'° ↓');
 							select('#squat_detect').html('Wrong');
 							upPos = 0;
-							document.getElementById("upper").style.color = 'red';
-							document.getElementById("squat_detect").style.color = 'red';
+							document.getElementById("upper").style.color = 'gray';
+							document.getElementById("squat_detect").style.color = 'gray';
 						}else if (trunkLean < 79) { //upper min 70
 							duvalue = Math.round(79 - trunkLean);
 							select('#upper').html(duvalue+'° ↑');
 							select('#squat_detect').html('Wrong');
 							upPos = 0;
-							document.getElementById("upper").style.color = 'red';
-							document.getElementById("squat_detect").style.color = 'red';
+							document.getElementById("upper").style.color = 'gray';
+							document.getElementById("squat_detect").style.color = 'gray';
 						}else {
 							duvalue = Math.round(trunkLean);
 							select('#upper').html('Okay!')
