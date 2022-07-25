@@ -8,12 +8,12 @@ You can find the original squatcam repo at https://github.com/jmablog/squatcam
 
 Thank you James for your amazing work.
 
-# 🌎 개발 환경 (Environment)
+# 🌎 Environment
 * OS: macOS Mojave (Version 10.14.6)
 * 주요 사용 라이브러리 (Core Library): p5.js(https://p5js.org/), ml5.js(https://ml5js.org/)
 * 주요 Api (Core Api): PoseNet (https://ml5js.org/reference/api-PoseNet/)
 
-# 👀 동작 맛보기 (Demo)
+# 👀 Demonstration
 1. Automatic side transition based on comparison of both ankle location values has been added. <br>
 
 ![sideTransition](https://user-images.githubusercontent.com/67300266/106098729-e02fcc80-617c-11eb-822b-031b5107063a.gif) <br> <br>
@@ -27,7 +27,7 @@ Thank you James for your amazing work.
 2) Three Angles (Upper Body Lean, Hip Angle, Knee Angle) 계산 후, <br>
 3) Three Angles 가 모두 적정 범위 내의 값이라는 조건을 만족하는 경우: <br>
 각 뼈대는 굵은 녹색, 머리 위 천사 고리 푸른색(cyan)으로 표시. <br>
-5) Squat 는 개당 카운트 되며 1 squat 시 소리로 알려줌. <br>
+5) Squat 는 개당 카운트 되며 1 squat 시 알림음. <br>
  <br>
 (Eng) <br>
 
