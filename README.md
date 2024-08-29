@@ -1,13 +1,3 @@
-# 👼 AngelSquat
-
-Codes in this forked repository have been modified.
-
-You can find the original squatcam repo at https://github.com/jmablog/squatcam
-
-[Try it out for yourself here](https://jmablog.com/post/posenet-app/) and see [this blog post on jmablog.com](https://jmablog.com/post/posenet-app/) for more details.
-
-Thank you James for your amazing work.
-
 # 🌎 Environment
 * OS: macOS Mojave (Version 10.14.6)
 * 주요 사용 라이브러리 (Core Library): p5.js(https://p5js.org/), ml5.js(https://ml5js.org/)
